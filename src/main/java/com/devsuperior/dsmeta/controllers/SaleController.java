@@ -1,5 +1,6 @@
 package com.devsuperior.dsmeta.controllers;
 
+import com.devsuperior.dsmeta.dto.SaleSumDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,8 +33,11 @@ public class SaleController {
 	}
 
 	@GetMapping(value = "/summary")
-	public ResponseEntity<?> getSummary() {
-		// TODO
-		return null;
+	public ResponseEntity<Page<SaleSumDTO>> getSummary(@RequestParam(value = "minDate", required = false) String minDate,
+													   @RequestParam(value = "maxDate", required = false) String maxDate,
+													   Pageable pageable) {
+		Page<SaleSumDTO> dto = service.getSumary(minDate, maxDate, pageable);
+		return ResponseEntity.ok(dto);
 	}
+
 }

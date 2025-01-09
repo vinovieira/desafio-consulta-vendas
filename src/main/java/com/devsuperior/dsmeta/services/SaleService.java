@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Optional;
 
+import com.devsuperior.dsmeta.dto.SaleSumDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,6 +36,14 @@ public class SaleService {
 		LocalDate today = LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault());
 		LocalDate toDate = maxDate == null ? today : LocalDate.parse(maxDate);
 		LocalDate fromDate = minDate == null ? toDate.minusYears(1) : LocalDate.parse(minDate);
-		return repository.searchAll(fromDate, toDate, name, pageable);
+		return repository.searchSalesReport(fromDate, toDate, name, pageable);
+	}
+
+
+	public Page<SaleSumDTO> getSumary(String minDate, String maxDate, Pageable pageable) {
+		LocalDate today = LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault());
+		LocalDate toDate = maxDate == null ? today : LocalDate.parse(maxDate);
+		LocalDate fromDate = minDate == null ? toDate.minusYears(1) : LocalDate.parse(minDate);
+		return repository.searchSalesSummary(fromDate, toDate, pageable);
 	}
 }
